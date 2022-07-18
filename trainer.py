@@ -6,24 +6,20 @@
 
 from __future__ import absolute_import, division, print_function
 
-import numpy as np
+import json
 import time
 
 import torch
 import torch.nn.functional as F
 import torch.optim as optim
-from torch.utils.data import DataLoader
 from tensorboardX import SummaryWriter
-
-import json
-
-from utils import *
-from kitti_utils import *
-from layers import *
+from torch.utils.data import DataLoader
 
 import datasets
 import networks
-from IPython import embed
+from kitti_utils import *
+from layers import *
+from utils import *
 
 
 class Trainer:
@@ -112,7 +108,9 @@ class Trainer:
 
         # data
         datasets_dict = {"kitti": datasets.KITTIRAWDataset,
-                         "kitti_odom": datasets.KITTIOdomDataset}
+                         "kitti_odom": datasets.KITTIOdomDataset,
+                         "cloud": datasets.CloudRAWDataset,
+                         }
         self.dataset = datasets_dict[self.opt.dataset]
 
         fpath = os.path.join(os.path.dirname(__file__), "splits", self.opt.split, "{}_files.txt")
@@ -364,7 +362,6 @@ class Trainer:
 
                 # from the authors of https://arxiv.org/abs/1712.00175
                 if self.opt.pose_model_type == "posecnn":
-
                     axisangle = outputs[("axisangle", 0, frame_id)]
                     translation = outputs[("translation", 0, frame_id)]
 
@@ -479,7 +476,7 @@ class Trainer:
 
             if not self.opt.disable_automasking:
                 outputs["identity_selection/{}".format(scale)] = (
-                    idxs > identity_reprojection_loss.shape[1] - 1).float()
+                        idxs > identity_reprojection_loss.shape[1] - 1).float()
 
             loss += to_optimise.mean()
 
@@ -531,9 +528,9 @@ class Trainer:
         samples_per_sec = self.opt.batch_size / duration
         time_sofar = time.time() - self.start_time
         training_time_left = (
-            self.num_total_steps / self.step - 1.0) * time_sofar if self.step > 0 else 0
+                                     self.num_total_steps / self.step - 1.0) * time_sofar if self.step > 0 else 0
         print_string = "epoch {:>3} | batch {:>6} | examples/s: {:5.1f}" + \
-            " | loss: {:.5f} | time elapsed: {} | time left: {}"
+                       " | loss: {:.5f} | time elapsed: {} | time left: {}"
         print(print_string.format(self.epoch, batch_idx, samples_per_sec, loss,
                                   sec_to_hm_str(time_sofar), sec_to_hm_str(training_time_left)))
 
