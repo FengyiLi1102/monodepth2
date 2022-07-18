@@ -8,12 +8,11 @@ from __future__ import absolute_import, division, print_function
 
 import os
 import random
-import numpy as np
-import copy
-from PIL import Image  # using pillow-simd for increased speed
 
+import numpy as np
 import torch
 import torch.utils.data as data
+from PIL import Image  # using pillow-simd for increased speed
 from torchvision import transforms
 
 
@@ -38,6 +37,7 @@ class MonoDataset(data.Dataset):
         is_train
         img_ext
     """
+
     def __init__(self,
                  data_path,
                  filenames,
@@ -85,7 +85,7 @@ class MonoDataset(data.Dataset):
             self.resize[i] = transforms.Resize((self.height // s, self.width // s),
                                                interpolation=self.interp)
 
-        self.load_depth = self.check_depth()
+        self.load_depth = self.check_depth()  # False
 
     def preprocess(self, inputs, color_aug):
         """Resize colour images to the required scales and augment if required
@@ -140,25 +140,31 @@ class MonoDataset(data.Dataset):
         do_color_aug = self.is_train and random.random() > 0.5
         do_flip = self.is_train and random.random() > 0.5
 
-        line = self.filenames[index].split()
+        line = self.filenames[index].split()    # index = which line in the filename [left/tl4***, index, r/l]
         folder = line[0]
 
         if len(line) == 3:
-            frame_index = int(line[1])
+            frame_index = int(line[1])      # int assigned to that line for its frame
         else:
             frame_index = 0
 
         if len(line) == 3:
-            side = line[2]
+            side = line[2]      # r - right, l - left
         else:
             side = None
 
         for i in self.frame_idxs:
             if i == "s":
-                other_side = {"r": "l", "l": "r"}[side]
-                inputs[("color", i, -1)] = self.get_color(folder, frame_index, other_side, do_flip)
+                v_name = folder.split("/")[1].split("_")
+                if side == "l":
+                    v_name[0] = "tl"
+                    other_folder = os.path.join("right", "_".join(v_name))
+                else:
+                    v_name[0] = "tl4"
+                    other_folder = os.path.join("left", "_".join(v_name))
+                inputs[("color", i, -1)] = self.get_color(other_folder, frame_index, do_flip)
             else:
-                inputs[("color", i, -1)] = self.get_color(folder, frame_index + i, side, do_flip)
+                inputs[("color", i, -1)] = self.get_color(folder, frame_index + i, do_flip)
 
         # adjusting intrinsics to match each scale in the pyramid
         for scale in range(self.num_scales):
@@ -199,7 +205,7 @@ class MonoDataset(data.Dataset):
 
         return inputs
 
-    def get_color(self, folder, frame_index, side, do_flip):
+    def get_color(self, folder, frame_index, do_flip):
         raise NotImplementedError
 
     def check_depth(self):
