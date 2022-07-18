@@ -68,9 +68,9 @@ class CloudRAWDataset(CloudDataset):
 
     def get_image_path(self, folder, frame_index):
         if re.split(r"[/_]+", folder)[1] == "tl4":
-            f_str = "img_{}_left".format(frame_index)  # img_1_left
+            f_str = "img_{}_left.png".format(frame_index)  # img_1_left
         else:
-            f_str = "img_{}_right".format(frame_index)
+            f_str = "img_{}_right.png".format(frame_index)
         # f_str = "{:010d}{}".format(frame_index, self.img_ext)
         # data_path = dataset/
         # folder = left/tl4_******/
