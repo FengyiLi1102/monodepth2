@@ -44,8 +44,8 @@ class MonodepthOptions:
         self.parser.add_argument("--dataset",
                                  type=str,
                                  help="dataset to train on",
-                                 default="kitti",
-                                 choices=["kitti", "kitti_odom", "kitti_depth", "kitti_test"])
+                                 default="cloud",
+                                 choices=["kitti", "kitti_odom", "kitti_depth", "kitti_test", "cloud"])
         self.parser.add_argument("--png",
                                  help="if set, trains from raw KITTI png files (instead of jpgs)",
                                  action="store_true")
@@ -62,7 +62,7 @@ class MonodepthOptions:
                                  help="disparity smoothness weight",
                                  default=1e-3)
         self.parser.add_argument("--scales",
-                                 nargs="+",
+                                 nargs="+",  # pass at least one element otherwise raise an error message
                                  type=int,
                                  help="scales used in the loss",
                                  default=[0, 1, 2, 3])
