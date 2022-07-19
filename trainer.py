@@ -20,6 +20,7 @@ import networks
 from kitti_utils import *
 from layers import *
 from utils import *
+import test_simple
 
 
 class Trainer:
@@ -187,6 +188,11 @@ class Trainer:
             self.run_epoch()
             if (self.epoch + 1) % self.opt.save_frequency == 0:
                 self.save_model()
+
+                # Generate the prediction on testing images
+                opts = test_simple.parse_args()
+                test_simple.test_simple(opts)
+
 
     def run_epoch(self):
         """Run a single epoch of training and validation

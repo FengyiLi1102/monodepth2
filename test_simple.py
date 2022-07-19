@@ -29,7 +29,8 @@ def parse_args():
         description='Simple testing funtion for Monodepthv2 models.')
 
     parser.add_argument('--image_path', type=str,
-                        help='path to a test image or folder of images', required=True)
+                        help='path to a test image or folder of images',
+                        default=r"assets/clouds/")
     parser.add_argument('--model_name', type=str,
                         help='name of a pretrained model to use',
                         choices=[
@@ -41,9 +42,12 @@ def parse_args():
                             "mono+stereo_no_pt_640x192",
                             "mono_1024x320",
                             "stereo_1024x320",
-                            "mono+stereo_1024x320"])
+                            "mono+stereo_1024x320",
+                            "stereo_640x480"],
+                        default="stereo_640x480")
     parser.add_argument('--ext', type=str,
-                        help='image extension to search for in folder', default="jpg")
+                        help='image extension to search for in folder',
+                        default="png")
     parser.add_argument("--no_cuda",
                         help='if set, disables CUDA',
                         action='store_true')
@@ -51,6 +55,12 @@ def parse_args():
                         help='if set, predicts metric depth instead of disparity. (This only '
                              'makes sense for stereo-trained KITTI models).',
                         action='store_true')
+    parser.add_argument("--log_dir",
+                        type=str,
+                        default=r"asserts/output/models/*/")
+    parser.add_argument("--output_dir",
+                        type=str,
+                        default=r"assets/test_results/")
 
     return parser.parse_args()
 
@@ -70,8 +80,9 @@ def test_simple(args):
         print("Warning: The --pred_metric_depth flag only makes sense for stereo-trained KITTI "
               "models. For mono-trained models, output depths will not in metric space.")
 
-    download_model_if_doesnt_exist(args.model_name)
-    model_path = os.path.join("models", args.model_name)
+    # download_model_if_doesnt_exist(args.model_name)
+    # Load the model
+    model_path = sorted(glob.glob(os.path.join(args.log_dir)), reverse=True)[0]
     print("-> Loading model from ", model_path)
     encoder_path = os.path.join(model_path, "encoder.pth")
     depth_decoder_path = os.path.join(model_path, "depth.pth")
@@ -103,11 +114,14 @@ def test_simple(args):
     if os.path.isfile(args.image_path):
         # Only testing on a single image
         paths = [args.image_path]
-        output_directory = os.path.dirname(args.image_path)
+        if os.path.isdir(args.output_dir):
+            output_directory = args.output_dir
+        else:
+            output_directory = os.path.dirname(args.image_path)
     elif os.path.isdir(args.image_path):
         # Searching folder for images
         paths = glob.glob(os.path.join(args.image_path, '*.{}'.format(args.ext)))
-        output_directory = args.image_path
+        output_directory = args.output_dir if args.output_dir else args.image_path
     else:
         raise Exception("Can not find args.image_path: {}".format(args.image_path))
 
