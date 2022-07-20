@@ -57,7 +57,7 @@ def parse_args():
                         action='store_true')
     parser.add_argument("--log_dir",
                         type=str,
-                        default=r"asserts/output")
+                        default=r"/vol/bitbucket/fl4718/monodepth2/assets/output")
     parser.add_argument("--output_dir",
                         type=str,
                         default=r"assets/test_results/")
