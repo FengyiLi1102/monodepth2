@@ -57,7 +57,7 @@ def parse_args():
                         action='store_true')
     parser.add_argument("--log_dir",
                         type=str,
-                        default=r"asserts/output/")
+                        default=r"asserts/output")
     parser.add_argument("--output_dir",
                         type=str,
                         default=r"assets/test_results/")
@@ -82,6 +82,7 @@ def test_simple(args):
 
     # download_model_if_doesnt_exist(args.model_name)
     # Load the model
+    print(sorted(glob.glob(os.path.join(args.log_dir, args.model_name, "models/*/")), reverse=True))
     model_path = sorted(glob.glob(os.path.join(args.log_dir, args.model_name, "models/*/")), reverse=True)[0]
     print(model_path)
     print("-> Loading model from ", model_path)
