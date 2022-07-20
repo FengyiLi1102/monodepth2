@@ -57,7 +57,7 @@ def parse_args():
                         action='store_true')
     parser.add_argument("--log_dir",
                         type=str,
-                        default=r"asserts/output/models/*/")
+                        default=r"asserts/output/")
     parser.add_argument("--output_dir",
                         type=str,
                         default=r"assets/test_results/")
@@ -82,7 +82,7 @@ def test_simple(args):
 
     # download_model_if_doesnt_exist(args.model_name)
     # Load the model
-    model_path = sorted(glob.glob(os.path.join(args.log_dir)), reverse=True)[0]
+    model_path = sorted(glob.glob(os.path.join(args.log_dir, args.model_name, "models/*/")), reverse=True)[0]
     print("-> Loading model from ", model_path)
     encoder_path = os.path.join(model_path, "encoder.pth")
     depth_decoder_path = os.path.join(model_path, "depth.pth")
@@ -183,4 +183,4 @@ def test_simple(args):
 if __name__ == '__main__':
     args = parse_args()
     print(args)
-    test_simple(args)
+    # test_simple(args)
