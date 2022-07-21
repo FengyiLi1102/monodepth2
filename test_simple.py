@@ -63,9 +63,9 @@ def parse_args(weight_n=0):
                         default=f"assets/test_results_{weight_n}/")
     parser.add_argument("--weight_num",
                         type=int,
-                        default="")
+                        default=weight_n)
 
-    return parser.parse_args(["weight_num", f"{weight_n}"])
+    return parser.parse_args()
 
 
 def test_simple(args):
