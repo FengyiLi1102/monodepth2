@@ -183,6 +183,7 @@ class Trainer:
         """
         self.epoch = 0
         self.step = 0
+        self.weight_n = 0
         self.start_time = time.time()
         for self.epoch in range(self.opt.num_epochs):
             self.run_epoch()
@@ -190,8 +191,9 @@ class Trainer:
                 self.save_model()
 
                 # Generate the prediction on testing images
-                opts = test_simple.parse_args()
+                opts = test_simple.parse_args(weight_n=self.weight_n)
                 test_simple.test_simple(opts)
+                self.weight_n += 1
 
 
     def run_epoch(self):

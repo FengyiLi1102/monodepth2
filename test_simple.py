@@ -24,7 +24,7 @@ from utils import download_model_if_doesnt_exist
 from evaluate_depth import STEREO_SCALE_FACTOR
 
 
-def parse_args():
+def parse_args(weight_n=0):
     parser = argparse.ArgumentParser(
         description='Simple testing funtion for Monodepthv2 models.')
 
@@ -60,9 +60,12 @@ def parse_args():
                         default=r"/vol/bitbucket/fl4718/monodepth2/assets/output")
     parser.add_argument("--output_dir",
                         type=str,
-                        default=r"assets/test_results/")
+                        default=f"assets/test_results_{weight_n}/")
+    parser.add_argument("--weight_num",
+                        type=int,
+                        default="")
 
-    return parser.parse_args()
+    return parser.parse_args(["weight_num", f"{weight_n}"])
 
 
 def test_simple(args):
