@@ -20,17 +20,17 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=os.path.join(file_dir, "kitti_data"))
+                                 default=r"/vol/bitbucket/fl4718/Utils/frames_output/640_480_2022-07-18/")
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=os.path.join(os.path.expanduser("~"), "tmp"))
+                                 default=r"assets/output")
 
         # TRAINING options
         self.parser.add_argument("--model_name",
                                  type=str,
                                  help="the name of the folder to save the model in",
-                                 default="mdp")
+                                 default="stereo_640x480")
         self.parser.add_argument("--split",
                                  type=str,
                                  help="which training split to use",
