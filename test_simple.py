@@ -115,17 +115,17 @@ def test_simple(args):
     depth_decoder.eval()
 
     # FINDING INPUT IMAGES
+    if not os.path.exists(args.output_dir):
+        os.mkdir(args.output_dir)
+
+    output_directory = args.output_dir
+
     if os.path.isfile(args.image_path):
         # Only testing on a single image
         paths = [args.image_path]
-        if os.path.isdir(args.output_dir):
-            output_directory = args.output_dir
-        else:
-            output_directory = os.path.dirname(args.image_path)
     elif os.path.isdir(args.image_path):
         # Searching folder for images
         paths = glob.glob(os.path.join(args.image_path, '*.{}'.format(args.ext)))
-        output_directory = args.output_dir if args.output_dir else args.image_path
     else:
         raise Exception("Can not find args.image_path: {}".format(args.image_path))
 
