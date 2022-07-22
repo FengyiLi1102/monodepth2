@@ -8,29 +8,6 @@ This is the reference PyTorch implementation for training and testing depth esti
 >
 > [ICCV 2019 (arXiv pdf)](https://arxiv.org/abs/1806.01260)
 
-<p align="center">
-  <img src="assets/teaser.gif" alt="example input output gif" width="600" />
-</p>
-
-This code is for non-commercial use; please see the [license file](LICENSE) for terms.
-
-If you find our work useful in your research please consider citing our paper:
-
-```
-@article{monodepth2,
-  title     = {Digging into Self-Supervised Monocular Depth Prediction},
-  author    = {Cl{\'{e}}ment Godard and
-               Oisin {Mac Aodha} and
-               Michael Firman and
-               Gabriel J. Brostow},
-  booktitle = {The International Conference on Computer Vision (ICCV)},
-  month = {October},
-year = {2019}
-}
-```
-
-
-
 ## ⚙️ Setup
 
 Assuming a fresh [Anaconda](https://www.anaconda.com/download/) distribution, you can install the dependencies with:
@@ -64,6 +41,10 @@ python test_simple.py --image_path assets/test_image.jpg --model_name mono+stere
 On its first run either of these commands will download the `mono+stereo_640x192` pretrained model (99MB) into the `models/` folder.
 We provide the following  options for `--model_name`:
 
+Download the mono+stereo pre-trained model: 
+```shell
+wget https://storage.googleapis.com/niantic-lon-static/research/monodepth2/mono%2Bstereo_640x192.zip -P models/
+```
 | `--model_name`          | Training modality | Imagenet pretrained? | Model resolution  | KITTI abs. rel. error |  delta < 1.25  |
 |-------------------------|-------------------|--------------------------|-----------------|------|----------------|
 | [`mono_640x192`](https://storage.googleapis.com/niantic-lon-static/research/monodepth2/mono_640x192.zip)          | Mono              | Yes | 640 x 192                | 0.115                 | 0.877          |
@@ -80,6 +61,22 @@ You can also download models trained on the odometry split with [monocular](http
 
 Finally, we provide resnet 50 depth estimation models trained with [ImageNet pretrained weights](https://storage.googleapis.com/niantic-lon-static/research/monodepth2/mono_resnet50_640x192.zip) and [trained from scratch](https://storage.googleapis.com/niantic-lon-static/research/monodepth2/mono_resnet50_no_pt_640x192.zip).
 Make sure to set `--num_layers 50` if using these.
+
+## Own training data
+Download
+```shell
+DataFileNames: https://drive.google.com/file/d/1YgyJa2cliFpIWa5rxIOHIJy5oI9xd9eD/view?usp=sharing
+
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1YgyJa2cliFpIWa5rxIOHIJy5oI9xd9eD' -O DataFileNames.zip
+
+Data_train: https://drive.google.com/file/d/1xivdmG34JMwNRrW1qJk3cP1Pd9fdAgzk/view?usp=sharing
+
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies \
+/tmp/cookies.txt --keep-session-cookies \
+--no-check-certificate 'https://docs.google.com/uc?export=download&id=1xivdmG34JMwNRrW1qJk3cP1Pd9fdAgzk' -O- \
+| sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1xivdmG34JMwNRrW1qJk3cP1Pd9fdAgzk" -O Data_train.zip && \
+rm -rf /tmp/cookies.txt
+```
 
 ## 💾 KITTI training data
 
@@ -123,6 +120,9 @@ You can train on a custom monocular or stereo dataset by writing a new dataloade
 By default models and tensorboard event files are saved to `~/tmp/<model_name>`.
 This can be changed with the `--log_dir` flag.
 
+```shell
+python train.py --data_path /vol/bitbucket/fl4718/Utils/frames_output/512_256_2022-07-14/ --log_dir asserts/ --model_name stereo_model --png --height 480 --width 640 --use_stereo
+```
 
 **Monocular training:**
 ```shell
