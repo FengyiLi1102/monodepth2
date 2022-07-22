@@ -48,7 +48,8 @@ class MonodepthOptions:
                                  choices=["kitti", "kitti_odom", "kitti_depth", "kitti_test", "cloud"])
         self.parser.add_argument("--png",
                                  help="if set, trains from raw KITTI png files (instead of jpgs)",
-                                 action="store_true")
+                                 action="store_true",
+                                 default=True)
         self.parser.add_argument("--height",
                                  type=int,
                                  help="input image height",
@@ -76,12 +77,13 @@ class MonodepthOptions:
                                  default=100.0)
         self.parser.add_argument("--use_stereo",
                                  help="if set, uses stereo pair for training",
-                                 action="store_true")
+                                 action="store_true",
+                                 default=True)
         self.parser.add_argument("--frame_ids",
                                  nargs="+",
                                  type=int,
                                  help="frames to load",
-                                 default=[0, -1, 1])
+                                 default=0)
 
         # OPTIMIZATION options
         self.parser.add_argument("--batch_size",
@@ -206,3 +208,4 @@ class MonodepthOptions:
     def parse(self):
         self.options = self.parser.parse_args()
         return self.options
+
