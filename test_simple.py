@@ -30,7 +30,7 @@ def parse_args(weight_n=0):
 
     parser.add_argument('--image_path', type=str,
                         help='path to a test image or folder of images',
-                        default=r"assets/clouds/")
+                        default=r"masked_test_img/")
     parser.add_argument('--model_name', type=str,
                         help='name of a pretrained model to use',
                         choices=[
