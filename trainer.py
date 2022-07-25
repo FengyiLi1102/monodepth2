@@ -34,6 +34,7 @@ class Trainer:
 
         self.models = {}
         self.parameters_to_train = []
+        self.warp_index = 0
 
         self.device = torch.device("cpu" if self.opt.no_cuda else "cuda")
 
@@ -390,9 +391,12 @@ class Trainer:
                     inputs[("color", frame_id, source_scale)],
                     outputs[("sample", frame_id, scale)],
                     padding_mode="border")
-                print(outputs[("color", frame_id, source_scale)])
-                print(outputs[("color", frame_id, source_scale)].shape)
-                save_image(outputs[("color", frame_id, source_scale)][0], "demo.png")
+
+                if self.warp_index % 200 == 0:
+                    # Save the first frame in the tensor
+                    save_image(outputs[("color", frame_id, source_scale)][0], f"warped_frame/img_{self.warp_index}.png")
+
+                self.warp_index += 1
 
                 if not self.opt.disable_automasking:
                     outputs[("color_identity", frame_id, scale)] = \
