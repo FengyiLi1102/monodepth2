@@ -9,11 +9,12 @@ from __future__ import absolute_import, division, print_function
 import json
 import time
 
-import torch
+import matplotlib.pyplot as plt
 import torch.nn.functional as F
 import torch.optim as optim
 from tensorboardX import SummaryWriter
 from torch.utils.data import DataLoader
+from torchvision.utils import save_image
 
 import datasets
 import networks
@@ -389,7 +390,9 @@ class Trainer:
                     inputs[("color", frame_id, source_scale)],
                     outputs[("sample", frame_id, scale)],
                     padding_mode="border")
-                print(outputs[()])
+                print(outputs[("color", frame_id, source_scale)])
+                print(outputs[("color", frame_id, source_scale)].shape.as_list())
+                save_image(outputs[("color", frame_id, source_scale)][0], "demo.png")
 
                 if not self.opt.disable_automasking:
                     outputs[("color_identity", frame_id, scale)] = \
