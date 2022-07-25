@@ -20,7 +20,7 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=r"/vol/bitbucket/fl4718/Utils/frames_output/640_480_train/")
+                                 default=r"/vol/bitbucket/fl4718/monodepth2/rendered_train/")
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
@@ -34,8 +34,8 @@ class MonodepthOptions:
         self.parser.add_argument("--split",
                                  type=str,
                                  help="which training split to use",
-                                 choices=["eigen_zhou", "eigen_full", "odom", "benchmark", "clouds"],
-                                 default="clouds")
+                                 choices=["eigen_zhou", "eigen_full", "odom", "benchmark", "clouds", "clouds_rendered"],
+                                 default="clouds_rendered")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
@@ -84,6 +84,10 @@ class MonodepthOptions:
                                  type=int,
                                  help="frames to load",
                                  default=[0])
+        self.parser.add_argument("--rendered",
+                                 action="store_true",
+                                 default=True,
+                                 dest="rendered")
 
         # OPTIMIZATION options
         self.parser.add_argument("--batch_size",

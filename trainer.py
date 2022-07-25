@@ -17,10 +17,9 @@ from torch.utils.data import DataLoader
 
 import datasets
 import networks
-from kitti_utils import *
+import test_simple
 from layers import *
 from utils import *
-import test_simple
 
 
 class Trainer:
@@ -88,7 +87,7 @@ class Trainer:
             assert self.opt.disable_automasking, \
                 "When using predictive_mask, please disable automasking with --disable_automasking"
 
-            # Our implementation of the predictive masking baseline has the the same architecture
+            # Our implementation of the predictive masking baseline has the same architecture
             # as our depth decoder. We predict a separate mask for each source frame.
             self.models["predictive_mask"] = networks.DepthDecoder(
                 self.models["encoder"].num_ch_enc, self.opt.scales,
@@ -123,15 +122,16 @@ class Trainer:
         num_train_samples = len(train_filenames)
         self.num_total_steps = num_train_samples // self.opt.batch_size * self.opt.num_epochs
 
+        rendered_flag = self.opt.rendered
         train_dataset = self.dataset(
             self.opt.data_path, train_filenames, self.opt.height, self.opt.width,
-            self.opt.frame_ids, 4, is_train=True, img_ext=img_ext)
+            self.opt.frame_ids, 4, is_train=True, img_ext=img_ext, rendered=rendered_flag)
         self.train_loader = DataLoader(
             train_dataset, self.opt.batch_size, True,
             num_workers=self.opt.num_workers, pin_memory=True, drop_last=True)
         val_dataset = self.dataset(
             self.opt.data_path, val_filenames, self.opt.height, self.opt.width,
-            self.opt.frame_ids, 4, is_train=False, img_ext=img_ext)
+            self.opt.frame_ids, 4, is_train=False, img_ext=img_ext, rendered=rendered_flag)
         self.val_loader = DataLoader(
             val_dataset, self.opt.batch_size, True,
             num_workers=self.opt.num_workers, pin_memory=True, drop_last=True)
@@ -194,7 +194,6 @@ class Trainer:
                 opts = test_simple.parse_args(weight_n=self.weight_n)
                 test_simple.test_simple(opts)
                 self.weight_n += 1
-
 
     def run_epoch(self):
         """Run a single epoch of training and validation
@@ -390,6 +389,7 @@ class Trainer:
                     inputs[("color", frame_id, source_scale)],
                     outputs[("sample", frame_id, scale)],
                     padding_mode="border")
+                print(outputs[()])
 
                 if not self.opt.disable_automasking:
                     outputs[("color_identity", frame_id, scale)] = \

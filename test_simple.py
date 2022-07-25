@@ -6,25 +6,23 @@
 
 from __future__ import absolute_import, division, print_function
 
-import os
-import sys
-import glob
 import argparse
-import numpy as np
+import glob
+import os
+
 import PIL.Image as pil
 import matplotlib as mpl
 import matplotlib.cm as cm
-
+import numpy as np
 import torch
-from torchvision import transforms, datasets
+from torchvision import transforms
 
 import networks
-from layers import disp_to_depth
-from utils import download_model_if_doesnt_exist
 from evaluate_depth import STEREO_SCALE_FACTOR
+from layers import disp_to_depth
 
 
-def parse_args(weight_n=0):
+def parse_args(weight_n=0, model_path=""):
     parser = argparse.ArgumentParser(
         description='Simple testing funtion for Monodepthv2 models.')
 
@@ -64,6 +62,9 @@ def parse_args(weight_n=0):
     parser.add_argument("--weight_num",
                         type=int,
                         default=weight_n)
+    parser.add_argument("--model_path",
+                        type=str,
+                        default=model_path)
 
     return parser.parse_args()
 
@@ -85,7 +86,8 @@ def test_simple(args):
 
     # download_model_if_doesnt_exist(args.model_name)
     # Load the model
-    model_path = sorted(glob.glob(os.path.join(args.log_dir, args.model_name, "models/*/")), reverse=True)[0]
+    # model_path = sorted(glob.glob(os.path.join(args.log_dir, args.model_name, "models/*/")), reverse=True)[0]
+    model_path = args.model_path
     print("-> Loading model from ", model_path)
     encoder_path = os.path.join(model_path, "encoder.pth")
     depth_decoder_path = os.path.join(model_path, "depth.pth")
@@ -184,5 +186,12 @@ def test_simple(args):
 
 
 if __name__ == '__main__':
-    args = parse_args()
-    test_simple(args)
+    # args = parse_args()
+    # test_simple(args)
+
+    i = 0
+    for model in glob.glob("assets/output/stereo_640x480/models/*/"):
+        print(model)
+        args = parse_args(weight_n=i, model_path=model)
+        test_simple(args)
+        i += 1

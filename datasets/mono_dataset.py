@@ -46,7 +46,8 @@ class MonoDataset(data.Dataset):
                  frame_idxs,
                  num_scales,
                  is_train=False,
-                 img_ext='.jpg'):
+                 img_ext='.jpg',
+                 rendered=False):
         super(MonoDataset, self).__init__()
 
         self.data_path = data_path
@@ -60,6 +61,7 @@ class MonoDataset(data.Dataset):
 
         self.is_train = is_train
         self.img_ext = img_ext
+        self.rendered = rendered
 
         self.loader = pil_loader
         self.to_tensor = transforms.ToTensor()
@@ -153,18 +155,25 @@ class MonoDataset(data.Dataset):
         else:
             side = None
 
+        rendered_side = {"l": "Right", "r": "Left"}
         for i in self.frame_idxs:
-            if i == "s":
-                v_name = folder.split("/")[1].split("_")
-                if side == "l":
-                    v_name[0] = "tl"
-                    other_folder = os.path.join("right", "_".join(v_name))
+            if self.rendered:
+                if i == "s":
+                    inputs[("color", i, -1)] = self.get_color(rendered_side[side], frame_index, do_flip, self.rendered)
                 else:
-                    v_name[0] = "tl4"
-                    other_folder = os.path.join("left", "_".join(v_name))
-                inputs[("color", i, -1)] = self.get_color(other_folder, frame_index, do_flip)
+                    inputs[("color", i, -1)] = self.get_color(folder, frame_index + i, do_flip, self.rendered)
             else:
-                inputs[("color", i, -1)] = self.get_color(folder, frame_index + i, do_flip)
+                if i == "s":
+                    v_name = folder.split("/")[1].split("_")
+                    if side == "l":
+                        v_name[0] = "tl"
+                        other_folder = os.path.join("right", "_".join(v_name))
+                    else:
+                        v_name[0] = "tl4"
+                        other_folder = os.path.join("left", "_".join(v_name))
+                    inputs[("color", i, -1)] = self.get_color(other_folder, frame_index, do_flip, self.rendered)
+                else:
+                    inputs[("color", i, -1)] = self.get_color(folder, frame_index + i, do_flip, self.rendered)
 
         # adjusting intrinsics to match each scale in the pyramid
         for scale in range(self.num_scales):
@@ -205,7 +214,7 @@ class MonoDataset(data.Dataset):
 
         return inputs
 
-    def get_color(self, folder, frame_index, do_flip):
+    def get_color(self, folder, frame_index, do_flip, rendered):
         raise NotImplementedError
 
     def check_depth(self):

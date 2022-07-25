@@ -36,7 +36,6 @@ class CloudDataset(MonoDataset):
                            [0, 0, 0, 1]], dtype=np.float32)
 
         self.full_res_shape = (640, 480)
-        # self.side_map = {"2": 2, "3": 3, "l": 2, "r": 3}
 
     def check_depth(self):
         line = self.filenames[0].split()
@@ -50,8 +49,8 @@ class CloudDataset(MonoDataset):
 
         return os.path.isfile(velo_filename)
 
-    def get_color(self, folder, frame_index, do_flip):
-        color = self.loader(self.get_image_path(folder, frame_index))
+    def get_color(self, folder, frame_index, do_flip, rendered=False):
+        color = self.loader(self.get_image_path(folder, frame_index, rendered))
 
         if do_flip:
             color = color.transpose(pil.FLIP_LEFT_RIGHT)
@@ -66,11 +65,17 @@ class CloudRAWDataset(CloudDataset):
     def __init__(self, *args, **kwargs):
         super(CloudRAWDataset, self).__init__(*args, **kwargs)
 
-    def get_image_path(self, folder, frame_index):
-        if re.split(r"[/_]+", folder)[1] == "tl4":
-            f_str = "img_{}_left.png".format(frame_index)  # img_1_left
+    def get_image_path(self, folder, frame_index, rendered=False):
+        if rendered:
+            if folder == "Left":
+                f_str = f"rgb_{frame_index}.PNG"
+            else:
+                f_str = f"rgb_{frame_index}.PNG"
         else:
-            f_str = "img_{}_right.png".format(frame_index)
+            if re.split(r"[/_]+", folder)[1] == "tl4":
+                f_str = "img_{}_left.png".format(frame_index)  # img_1_left
+            else:
+                f_str = "img_{}_right.png".format(frame_index)
         # f_str = "{:010d}{}".format(frame_index, self.img_ext)
         # data_path = dataset/
         # folder = left/tl4_******/
