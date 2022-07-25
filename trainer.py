@@ -163,7 +163,7 @@ class Trainer:
 
         print("Using split:\n  ", self.opt.split)
         print("There are {:d} training items and {:d} validation items\n".format(
-            len(train_dataset), len(val_dataset)))
+            int(len(train_dataset) / 2), int(len(val_dataset) / 2)))
 
         self.save_opts()
 
@@ -391,7 +391,7 @@ class Trainer:
                     outputs[("sample", frame_id, scale)],
                     padding_mode="border")
                 print(outputs[("color", frame_id, source_scale)])
-                print(outputs[("color", frame_id, source_scale)].shape.as_list())
+                print(outputs[("color", frame_id, source_scale)].shape)
                 save_image(outputs[("color", frame_id, source_scale)][0], "demo.png")
 
                 if not self.opt.disable_automasking:
