@@ -28,7 +28,7 @@ def parse_args(weight_n=0, model_path=""):
 
     parser.add_argument('--image_path', type=str,
                         help='path to a test image or folder of images',
-                        default=r"masked_test_img/")
+                        default=r"masked_test_1_v/")
     parser.add_argument('--model_name', type=str,
                         help='name of a pretrained model to use',
                         choices=[
@@ -86,8 +86,9 @@ def test_simple(args):
 
     # download_model_if_doesnt_exist(args.model_name)
     # Load the model
-    # model_path = sorted(glob.glob(os.path.join(args.log_dir, args.model_name, "models/*/")), reverse=True)[0]
-    model_path = args.model_path
+    model_path = sorted(glob.glob(os.path.join(args.log_dir, args.model_name, "models/*/")), reverse=True)[0]
+    # Only for test
+    # model_path = args.model_path
     print("-> Loading model from ", model_path)
     encoder_path = os.path.join(model_path, "encoder.pth")
     depth_decoder_path = os.path.join(model_path, "depth.pth")
