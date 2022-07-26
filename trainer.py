@@ -188,9 +188,9 @@ class Trainer:
         self.weight_n = 0
         self.start_time = time.time()
         for self.epoch in range(self.opt.num_epochs):
-            self.run_epoch()
+            loss = self.run_epoch()
             if (self.epoch + 1) % self.opt.save_frequency == 0:
-                self.save_model()
+                self.save_model(loss=loss)
 
                 # Generate the prediction on testing images
                 opts = test_simple.parse_args(weight_n=self.weight_n)
@@ -204,6 +204,8 @@ class Trainer:
 
         print("Training")
         self.set_train()
+
+        losses = 0
 
         for batch_idx, inputs in enumerate(self.train_loader):
 
@@ -231,6 +233,8 @@ class Trainer:
                 self.val()
 
             self.step += 1
+
+        return losses["loss"].cpu().data
 
     def process_batch(self, inputs):
         """Pass a minibatch through the network and generate images and losses
@@ -542,10 +546,11 @@ class Trainer:
         """
         samples_per_sec = self.opt.batch_size / duration
         time_sofar = time.time() - self.start_time
-        training_time_left = (
-                                     self.num_total_steps / self.step - 1.0) * time_sofar if self.step > 0 else 0
+        training_time_left = (self.num_total_steps / self.step - 1.0) * time_sofar if self.step > 0 else 0
+
         print_string = "epoch {:>3} | batch {:>6} | examples/s: {:5.1f}" + \
                        " | loss: {:.5f} | time elapsed: {} | time left: {}"
+
         print(print_string.format(self.epoch, batch_idx, samples_per_sec, loss,
                                   sec_to_hm_str(time_sofar), sec_to_hm_str(training_time_left)))
 
@@ -594,10 +599,10 @@ class Trainer:
         with open(os.path.join(models_dir, 'opt.json'), 'w') as f:
             json.dump(to_save, f, indent=2)
 
-    def save_model(self):
+    def save_model(self, loss=0.9999):
         """Save model weights to disk
         """
-        save_folder = os.path.join(self.log_path, "models", "weights_{}".format(self.epoch))
+        save_folder = os.path.join(self.log_path, "models", "weights_{}_{:8.6f}".format(self.epoch, loss))
         if not os.path.exists(save_folder):
             os.makedirs(save_folder)
 
