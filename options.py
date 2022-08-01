@@ -20,7 +20,7 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=r"/vol/bitbucket/fl4718/monodepth2/rendered_train/")
+                                 default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
