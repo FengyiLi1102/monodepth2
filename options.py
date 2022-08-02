@@ -69,12 +69,12 @@ class MonodepthOptions:
                                  default=[0, 1, 2, 3])
         self.parser.add_argument("--min_depth",  # disp = 1 / depth
                                  type=float,
-                                 help="minimum depth",  # 1000m
-                                 default=0.1)  # original: 0.1 units = 10 cm = 0.1m
+                                 help="minimum depth",  # 1000m  disparity: 1 - 10
+                                 default=0.1)
         self.parser.add_argument("--max_depth",
                                  type=float,
                                  help="maximum depth",  # 10000m
-                                 default=99)
+                                 default=1000)
         self.parser.add_argument("--use_stereo",
                                  help="if set, uses stereo pair for training",
                                  action="store_true",
