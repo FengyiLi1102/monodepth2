@@ -25,7 +25,7 @@ class MonodepthOptions:
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=r"assets/output")
+                                 default=r"/vol/bitbucket/fl4718/monodepth2/assets/output")
 
         # TRAINING options
         self.parser.add_argument("--model_name",

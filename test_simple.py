@@ -10,6 +10,7 @@ import argparse
 import glob
 import os
 
+
 import PIL.Image as pil
 import matplotlib as mpl
 import matplotlib.cm as cm
@@ -22,13 +23,13 @@ from evaluate_depth import STEREO_SCALE_FACTOR
 from layers import disp_to_depth
 
 
-def parse_args(weight_n=0, model_path=""):
+def parse_args(weight_n=0, model_path="", log_dir="/vol/bitbucket/fl4718/monodepth2/assets/output"):
     parser = argparse.ArgumentParser(
         description='Simple testing funtion for Monodepthv2 models.')
 
     parser.add_argument('--image_path', type=str,
                         help='path to a test image or folder of images',
-                        default=r"masked_test_img/")
+                        default=r"masked_test_1_v/")
     parser.add_argument('--model_name', type=str,
                         help='name of a pretrained model to use',
                         choices=[
@@ -41,8 +42,9 @@ def parse_args(weight_n=0, model_path=""):
                             "mono_1024x320",
                             "stereo_1024x320",
                             "mono+stereo_1024x320",
-                            "stereo_640x480"],
-                        default="stereo_640x480")
+                            "stereo_640x480",
+                            "stereo_640_480_non_rendered"],
+                        default="stereo_640x480_non_rendered")
     parser.add_argument('--ext', type=str,
                         help='image extension to search for in folder',
                         default="png")
@@ -55,7 +57,7 @@ def parse_args(weight_n=0, model_path=""):
                         action='store_true')
     parser.add_argument("--log_dir",
                         type=str,
-                        default=r"/vol/bitbucket/fl4718/monodepth2/assets/output")
+                        default=log_dir)
     parser.add_argument("--output_dir",
                         type=str,
                         default=f"assets/test_results_{weight_n}/")
@@ -86,9 +88,9 @@ def test_simple(args):
 
     # download_model_if_doesnt_exist(args.model_name)
     # Load the model
-    model_path = sorted(glob.glob(os.path.join(args.log_dir, args.model_name, "models/*/")), reverse=True)[0]
+    # model_path = sorted(glob.glob(os.path.join(args.log_dir, args.model_name, "models/*/")), reverse=True)[0]
     # Only for test
-    # model_path = args.model_path
+    model_path = args.model_path
     print("-> Loading model from ", model_path)
     encoder_path = os.path.join(model_path, "encoder.pth")
     depth_decoder_path = os.path.join(model_path, "depth.pth")
@@ -187,12 +189,13 @@ def test_simple(args):
 
 
 if __name__ == '__main__':
-    # args = parse_args()
-    # test_simple(args)
+    args = parse_args(model_path="assets/output/stereo_640x480/model_rendered_masked_0.1_1000/weights_1_0.109385", weight_n=1)
+    test_simple(args)
 
-    i = 0
-    for model in glob.glob("assets/output/stereo_640x480/models/*/"):
-        print(model)
-        args = parse_args(weight_n=i, model_path=model)
-        test_simple(args)
-        i += 1
+    # i = 0
+    #
+    # for model in glob.glob("assets/output/stereo_640x480/model_rendered_masked_0.1_1000/*/"):
+    #     print(model)
+    #     args = parse_args(weight_n=i, model_path=model)
+    #     test_simple(args)
+    #     i += 1
