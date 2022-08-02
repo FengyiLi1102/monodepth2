@@ -31,12 +31,12 @@ class MonodepthOptions:
         self.parser.add_argument("--model_name",
                                  type=str,
                                  help="the name of the folder to save the model in",
-                                 default="stereo_640x480")
+                                 default="stereo_640x480_non_rendered")
         self.parser.add_argument("--split",
                                  type=str,
                                  help="which training split to use",
                                  choices=["eigen_zhou", "eigen_full", "odom", "benchmark", "clouds", "clouds_rendered"],
-                                 default="clouds_rendered")
+                                 default="clouds")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
