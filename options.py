@@ -20,7 +20,8 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
+                                 default=r"/vol/bitbucket/fl4718/Utils/frames_output/640_480_train/")
+                                 # default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
@@ -39,7 +40,7 @@ class MonodepthOptions:
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
-                                 default=18,
+                                 default=34,
                                  choices=[18, 34, 50, 101, 152])
         self.parser.add_argument("--dataset",
                                  type=str,
@@ -73,7 +74,7 @@ class MonodepthOptions:
                                  default=0.1)
         self.parser.add_argument("--max_depth",
                                  type=float,
-                                 help="maximum depth",  # 10000m
+                                 help="maximum depth",
                                  default=1000)
         self.parser.add_argument("--use_stereo",
                                  help="if set, uses stereo pair for training",

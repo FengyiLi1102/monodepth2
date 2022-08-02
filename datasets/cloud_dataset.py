@@ -21,18 +21,19 @@ class CloudDataset(MonoDataset):
         # by 1 / image_height. Monodepth2 assumes a principal point to be exactly centered.
         # If your principal point is far from the center you might need to disable the horizontal
         # flip augmentation.
+
         # self.K = np.array([[0.58, 0, 0.5, 0],
         #                    [0, 1.92, 0.5, 0],
         #                    [0, 0, 1, 0],
         #                    [0, 0, 0, 1]], dtype=np.float32)
 
-        # f = 5.084752337001038995e+02
-        # c_x = 3.225185456035997049e+02
-        # c_y = 2.505901000840876520e+02
+        f = 5.084752337001038995e+02
+        c_x = 3.225185456035997049e+02
+        c_y = 2.505901000840876520e+02
 
-        f = 530.0
-        c_x = 320.0
-        c_y = 240
+        # f = 530.0
+        # c_x = 320.0
+        # c_y = 240
 
         self.K = np.array([[f / 640, 0, c_x / 640, 0],
                            [0, f / 480, c_y / 480, 0],
