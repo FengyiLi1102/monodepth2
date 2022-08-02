@@ -26,9 +26,13 @@ class CloudDataset(MonoDataset):
         #                    [0, 0, 1, 0],
         #                    [0, 0, 0, 1]], dtype=np.float32)
 
-        f = 5.084752337001038995e+02
-        c_x = 3.225185456035997049e+02
-        c_y = 2.505901000840876520e+02
+        # f = 5.084752337001038995e+02
+        # c_x = 3.225185456035997049e+02
+        # c_y = 2.505901000840876520e+02
+
+        f = 530.0
+        c_x = 320.0
+        c_y = 240
 
         self.K = np.array([[f / 640, 0, c_x / 640, 0],
                            [0, f / 480, c_y / 480, 0],
@@ -100,6 +104,7 @@ class CloudRAWDataset(CloudDataset):
     #
     #     return depth_gt
 
+
 # class CloudOdomDataset(CloudDataset):
 #     """KITTI dataset for odometry training and testing
 #     """
@@ -159,9 +164,9 @@ if __name__ == "__main__":
     frame_idxs = [0, -1, 1, "s"]
     num_scales = 4
     demo = CloudRAWDataset(data_path, filenames,
-                 height,
-                 width,
-                 frame_idxs,
-                 num_scales,
-                 is_train=False,
-                 img_ext='.jpg')
+                           height,
+                           width,
+                           frame_idxs,
+                           num_scales,
+                           is_train=False,
+                           img_ext='.jpg')
