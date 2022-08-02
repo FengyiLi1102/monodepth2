@@ -19,7 +19,7 @@ from torchvision import transforms
 
 import networks
 from evaluate_depth import STEREO_SCALE_FACTOR
-from layers import disp_to_dept
+from layers import disp_to_depth
 
 def parse_args(weight_n=0, model_path="", log_dir=r"/vol/bitbucket/fl4718/monodepth2/assets/output"):
     parser = argparse.ArgumentParser(
@@ -58,7 +58,7 @@ def parse_args(weight_n=0, model_path="", log_dir=r"/vol/bitbucket/fl4718/monode
                         default=log_dir)
     parser.add_argument("--output_dir",
                         type=str,
-                        default=f"assets/test_results_{weight_n}/")
+                        default=os.path.join(log_dir, f"test_results_{weight_n}/"))
     parser.add_argument("--weight_num",
                         type=int,
                         default=weight_n)
@@ -95,7 +95,7 @@ def test_simple(args):
     model_path = model_paths[-1] 
 
     # Only for test
-    model_path = args.model_path
+    # model_path = args.model_path
     print("-> Loading model from ", model_path)
     encoder_path = os.path.join(model_path, "encoder.pth")
     depth_decoder_path = os.path.join(model_path, "depth.pth")
