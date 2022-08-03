@@ -21,7 +21,8 @@ import networks
 from evaluate_depth import STEREO_SCALE_FACTOR
 from layers import disp_to_depth
 
-def parse_args(weight_n=0, model_path="", log_dir=r"/vol/bitbucket/fl4718/monodepth2/assets/output"):
+
+def parse_args(weight_n=0, model_path="", log_dir=r"/vol/bitbucket/fl4718/monodepth2/assets/output", model_name=""):
     parser = argparse.ArgumentParser(
         description='Simple testing funtion for Monodepthv2 models.')
 
@@ -30,7 +31,7 @@ def parse_args(weight_n=0, model_path="", log_dir=r"/vol/bitbucket/fl4718/monode
                         default=r"masked_test_1_v/")
     parser.add_argument('--model_name', type=str,
                         help='name of a pretrained model to use',
-                        default="stereo_640x480_non_rendered")
+                        default=model_name)
     parser.add_argument('--ext', type=str,
                         help='image extension to search for in folder',
                         default="png")
@@ -59,7 +60,7 @@ def parse_args(weight_n=0, model_path="", log_dir=r"/vol/bitbucket/fl4718/monode
 
 def num_sort(input):
     return list(map(int, re.findall(r"\d+", input)))
-                
+
 
 def test_simple(args):
     """Function to predict for a single image or folder of images
@@ -80,7 +81,7 @@ def test_simple(args):
     # Load the model
     model_paths = glob.glob(os.path.join(args.log_dir, args.model_name, "models/*/"))
     model_paths.sort(key=num_sort)
-    model_path = model_paths[-1] 
+    model_path = model_paths[-1]
 
     # Only for test
     # model_path = args.model_path
@@ -182,7 +183,8 @@ def test_simple(args):
 
 
 if __name__ == '__main__':
-    args = parse_args(model_path="assets/output/stereo_640x480/model_rendered_masked_0.1_1000/weights_1_0.109385", weight_n=1)
+    args = parse_args(model_path="assets/output/stereo_640x480/model_rendered_masked_0.1_1000/weights_1_0.109385",
+                      weight_n=1)
     test_simple(args)
 
     # i = 0

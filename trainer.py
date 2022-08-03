@@ -193,7 +193,8 @@ class Trainer:
                 self.save_model(loss=loss)
 
                 # Generate the prediction on testing images
-                opts = test_simple.parse_args(weight_n=self.weight_n, log_dir=self.opt.log_dir)
+                opts = test_simple.parse_args(weight_n=self.weight_n, log_dir=self.opt.log_dir,
+                                              model_name=self.opt.model_name)
                 test_simple.test_simple(opts)
                 self.weight_n += 1
 
