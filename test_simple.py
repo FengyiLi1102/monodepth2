@@ -30,18 +30,6 @@ def parse_args(weight_n=0, model_path="", log_dir=r"/vol/bitbucket/fl4718/monode
                         default=r"masked_test_1_v/")
     parser.add_argument('--model_name', type=str,
                         help='name of a pretrained model to use',
-                        choices=[
-                            "mono_640x192",
-                            "stereo_640x192",
-                            "mono+stereo_640x192",
-                            "mono_no_pt_640x192",
-                            "stereo_no_pt_640x192",
-                            "mono+stereo_no_pt_640x192",
-                            "mono_1024x320",
-                            "stereo_1024x320",
-                            "mono+stereo_1024x320",
-                            "stereo_640x480"
-                            "stereo_640x480_non_rendered"],
                         default="stereo_640x480_non_rendered")
     parser.add_argument('--ext', type=str,
                         help='image extension to search for in folder',
