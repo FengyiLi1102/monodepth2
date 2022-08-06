@@ -20,8 +20,8 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=r"/vol/bitbucket/fl4718/Utils/frames_output/640_480_train/")
-                                 # default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
+                                 # default=r"/vol/bitbucket/fl4718/Utils/frames_output/640_480_train/")
+                                 default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
@@ -31,12 +31,12 @@ class MonodepthOptions:
         self.parser.add_argument("--model_name",
                                  type=str,
                                  help="the name of the folder to save the model in",
-                                 default="stereo_640x480_non_rendered")
+                                 default="rendered_train_val_test")
         self.parser.add_argument("--split",
                                  type=str,
                                  help="which training split to use",
                                  choices=["eigen_zhou", "eigen_full", "odom", "benchmark", "clouds", "clouds_rendered"],
-                                 default="clouds")
+                                 default="clouds_rendered")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
@@ -87,7 +87,7 @@ class MonodepthOptions:
                                  default=[0])
         self.parser.add_argument("--rendered",
                                  action="store_true",
-                                 default=False,
+                                 default=True,
                                  dest="rendered")
 
         # OPTIMIZATION options
@@ -172,10 +172,12 @@ class MonodepthOptions:
         # EVALUATION options
         self.parser.add_argument("--eval_stereo",
                                  help="if set evaluates in stereo mode",
-                                 action="store_true")
+                                 action="store_true",
+                                 default=True)
         self.parser.add_argument("--eval_mono",
                                  help="if set evaluates in mono mode",
-                                 action="store_true")
+                                 action="store_true",
+                                 default=False)
         self.parser.add_argument("--disable_median_scaling",
                                  help="if set disables median scaling in evaluation",
                                  action="store_true")
@@ -188,9 +190,9 @@ class MonodepthOptions:
                                  help="optional path to a .npy disparities file to evaluate")
         self.parser.add_argument("--eval_split",
                                  type=str,
-                                 default="eigen",
+                                 default="cloud_rendered",
                                  choices=[
-                                    "eigen", "eigen_benchmark", "benchmark", "odom_9", "odom_10"],
+                                    "eigen", "eigen_benchmark", "benchmark", "odom_9", "odom_10", "cloud_rendered"],
                                  help="which split to run eval on")
         self.parser.add_argument("--save_pred_disps",
                                  help="if set saves predicted disparities",
