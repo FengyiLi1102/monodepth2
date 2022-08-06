@@ -21,23 +21,23 @@ class MonodepthOptions:
                                  type=str,
                                  help="path to the training data",
                                  # default=r"/vol/bitbucket/fl4718/Utils/frames_output/640_480_train/")
-                                 # default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
-                                 default=r"/vol/bitbucket/fl4718/Utils/rendered_train/")
+                                 default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
+                                 # default=r"/vol/bitbucket/fl4718/Utils/rendered_train/")
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=r"/vol/bitbucket/fl4718/monodepth2/assets/output_no_masked_rendered")
+                                 default=r"/vol/bitbucket/fl4718/monodepth2/assets/output_masked")
 
         # TRAINING options
         self.parser.add_argument("--model_name",
                                  type=str,
                                  help="the name of the folder to save the model in",
-                                 default="rendered_train_val_test")
+                                 default="train_val")
         self.parser.add_argument("--split",
                                  type=str,
                                  help="which training split to use",
                                  choices=["eigen_zhou", "eigen_full", "odom", "benchmark", "clouds", "clouds_rendered"],
-                                 default="clouds_rendered")
+                                 default="clouds")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
@@ -88,7 +88,7 @@ class MonodepthOptions:
                                  default=[0])
         self.parser.add_argument("--rendered",
                                  action="store_true",
-                                 default=True,
+                                 default=False,
                                  dest="rendered")
 
         # OPTIMIZATION options
