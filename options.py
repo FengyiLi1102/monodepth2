@@ -72,7 +72,7 @@ class MonodepthOptions:
         self.parser.add_argument("--min_depth",  # disp = 1 / depth
                                  type=float,
                                  help="minimum depth",  # 1000m  disparity: 1 - 10
-                                 default=0.1)
+                                 default=10)
         self.parser.add_argument("--max_depth",
                                  type=float,
                                  help="maximum depth",
@@ -95,7 +95,7 @@ class MonodepthOptions:
         self.parser.add_argument("--batch_size",
                                  type=int,
                                  help="batch size",
-                                 default=12)
+                                 default=16)
         self.parser.add_argument("--learning_rate",
                                  type=float,
                                  help="learning rate",
@@ -103,7 +103,7 @@ class MonodepthOptions:
         self.parser.add_argument("--num_epochs",
                                  type=int,
                                  help="number of epochs",
-                                 default=30)
+                                 default=40)
         self.parser.add_argument("--scheduler_step_size",
                                  type=int,
                                  help="step size of the scheduler",
