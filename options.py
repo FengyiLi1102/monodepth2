@@ -21,11 +21,12 @@ class MonodepthOptions:
                                  type=str,
                                  help="path to the training data",
                                  # default=r"/vol/bitbucket/fl4718/Utils/frames_output/640_480_train/")
-                                 default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
+                                 # default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
+                                 default=r"/vol/bitbucket/fl4718/Utils/rendered_train/")
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=r"/vol/bitbucket/fl4718/monodepth2/assets/output")
+                                 default=r"/vol/bitbucket/fl4718/monodepth2/assets/output_no_masked_rendered")
 
         # TRAINING options
         self.parser.add_argument("--model_name",
