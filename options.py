@@ -72,11 +72,11 @@ class MonodepthOptions:
         self.parser.add_argument("--min_depth",  # disp = 1 / depth
                                  type=float,
                                  help="minimum depth",  # 1000m  disparity: 1 - 10
-                                 default=10)
+                                 default=10.0)
         self.parser.add_argument("--max_depth",
                                  type=float,
                                  help="maximum depth",
-                                 default=10000)
+                                 default=10000.0)
         self.parser.add_argument("--use_stereo",
                                  help="if set, uses stereo pair for training",
                                  action="store_true",
@@ -87,8 +87,7 @@ class MonodepthOptions:
                                  help="frames to load",
                                  default=[0])
         self.parser.add_argument("--rendered",
-                                 action="store_true",
-                                 dest="rendered")
+                                 action="store_true")
 
         # OPTIMIZATION options
         self.parser.add_argument("--batch_size",
