@@ -25,22 +25,22 @@ class MonodepthOptions:
                                  help="path to the training data",
                                  # default=r"/vol/bitbucket/fl4718/Utils/frames_output/640_480_train/")
                                  # default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
-                                 default=os.path.join(self.utils_dir, "rendered_train"))
+                                 default=os.path.join(self.utils_dir, "frames_output/640_480_train/"))
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_non_mask"))
+                                 default=os.path.join(self.monodepth2_dir, "assets/output_non_rendered"))
 
         # TRAINING options
         self.parser.add_argument("--model_name",
                                  type=str,
                                  help="the name of the folder to save the model in",
-                                 default="train_val_test")
+                                 default="train_val")
         self.parser.add_argument("--split",
                                  type=str,
                                  help="which training split to use",
                                  choices=["eigen_zhou", "eigen_full", "odom", "benchmark", "clouds", "clouds_rendered"],
-                                 default="clouds_rendered")
+                                 default="clouds")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
@@ -91,13 +91,13 @@ class MonodepthOptions:
                                  default=[0])
         self.parser.add_argument("--rendered",
                                  action="store_true",
-                                 default=True)
+                                 default=False)
 
         # OPTIMIZATION options
         self.parser.add_argument("--batch_size",
                                  type=int,
                                  help="batch size",
-                                 default=8)
+                                 default=15)
         self.parser.add_argument("--learning_rate",
                                  type=float,
                                  help="learning rate",
