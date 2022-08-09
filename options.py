@@ -14,6 +14,9 @@ file_dir = os.path.dirname(__file__)  # the directory that options.py resides in
 
 class MonodepthOptions:
     def __init__(self):
+        self.fl4718_dir = r"/vol/bitbucket/fl4718"
+        self.utils_dir = os.path.join(self.fl4718_dir, "Utils")
+        self.monodepth2_dir = os.path.join(self.fl4718_dir, "monodepth2")
         self.parser = argparse.ArgumentParser(description="Monodepthv2 options")
 
         # PATHS
@@ -22,11 +25,11 @@ class MonodepthOptions:
                                  help="path to the training data",
                                  # default=r"/vol/bitbucket/fl4718/Utils/frames_output/640_480_train/")
                                  # default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
-                                 default=r"/vol/bitbucket/fl4718/Utils/rendered_train/")
+                                 default=os.path.join(self.utils_dir, "rendered_train"))
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=r"/vol/bitbucket/fl4718/monodepth2/assets/output_rendered_non_mask")
+                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_non_mask"))
 
         # TRAINING options
         self.parser.add_argument("--model_name",
@@ -94,7 +97,7 @@ class MonodepthOptions:
         self.parser.add_argument("--batch_size",
                                  type=int,
                                  help="batch size",
-                                 default=12)
+                                 default=8)
         self.parser.add_argument("--learning_rate",
                                  type=float,
                                  help="learning rate",
@@ -102,7 +105,7 @@ class MonodepthOptions:
         self.parser.add_argument("--num_epochs",
                                  type=int,
                                  help="number of epochs",
-                                 default=40)
+                                 default=100)
         self.parser.add_argument("--scheduler_step_size",
                                  type=int,
                                  help="step size of the scheduler",
