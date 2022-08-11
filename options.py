@@ -23,24 +23,22 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 # default=r"/vol/bitbucket/fl4718/Utils/frames_output/640_480_train/")
-                                 # default=r"/vol/bitbucket/fl4718/Utils/rendered_masked_data/")
-                                 default=os.path.join(self.utils_dir, "frames_output/640_480_train/"))
+                                 default=os.path.join(self.utils_dir, "rectified_rendered_data/"))
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=os.path.join(self.monodepth2_dir, "assets/output_non_rendered"))
+                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_non_masked"))
 
         # TRAINING options
         self.parser.add_argument("--model_name",
                                  type=str,
                                  help="the name of the folder to save the model in",
-                                 default="train_val")
+                                 default="train_val_test")
         self.parser.add_argument("--split",
                                  type=str,
                                  help="which training split to use",
                                  choices=["eigen_zhou", "eigen_full", "odom", "benchmark", "clouds", "clouds_rendered"],
-                                 default="clouds")
+                                 default="clouds_rendered")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
@@ -75,11 +73,11 @@ class MonodepthOptions:
         self.parser.add_argument("--min_depth",  # disp = 1 / depth
                                  type=float,
                                  help="minimum depth",  # 1000m  disparity: 1 - 10
-                                 default=0.1)
+                                 default=300)
         self.parser.add_argument("--max_depth",
                                  type=float,
                                  help="maximum depth",
-                                 default=100.0)
+                                 default=10000)
         self.parser.add_argument("--use_stereo",
                                  help="if set, uses stereo pair for training",
                                  action="store_true",
@@ -91,7 +89,7 @@ class MonodepthOptions:
                                  default=[0])
         self.parser.add_argument("--rendered",
                                  action="store_true",
-                                 default=False)
+                                 default=True)
 
         # OPTIMIZATION options
         self.parser.add_argument("--batch_size",
