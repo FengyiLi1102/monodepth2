@@ -6,8 +6,8 @@
 
 from __future__ import absolute_import, division, print_function
 
-import os
 import argparse
+import os
 
 file_dir = os.path.dirname(__file__)  # the directory that options.py resides in
 
@@ -23,11 +23,11 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=os.path.join(self.utils_dir, "rectified_rendered_data/"))
+                                 default=os.path.join(self.utils_dir, "../Utils/masked_rectified_rendered/"))
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_non_masked"))
+                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_masked"))
 
         # TRAINING options
         self.parser.add_argument("--model_name",
@@ -73,11 +73,11 @@ class MonodepthOptions:
         self.parser.add_argument("--min_depth",  # disp = 1 / depth
                                  type=float,
                                  help="minimum depth",  # 1000m  disparity: 1 - 10
-                                 default=300)
+                                 default=0.1)
         self.parser.add_argument("--max_depth",
                                  type=float,
                                  help="maximum depth",
-                                 default=10000)
+                                 default=100.0)
         self.parser.add_argument("--use_stereo",
                                  help="if set, uses stereo pair for training",
                                  action="store_true",
@@ -193,7 +193,7 @@ class MonodepthOptions:
                                  type=str,
                                  default="cloud_rendered",
                                  choices=[
-                                    "eigen", "eigen_benchmark", "benchmark", "odom_9", "odom_10", "cloud_rendered"],
+                                     "eigen", "eigen_benchmark", "benchmark", "odom_9", "odom_10", "cloud_rendered"],
                                  help="which split to run eval on")
         self.parser.add_argument("--save_pred_disps",
                                  help="if set saves predicted disparities",
@@ -216,4 +216,3 @@ class MonodepthOptions:
     def parse(self):
         self.options = self.parser.parse_args()
         return self.options
-
