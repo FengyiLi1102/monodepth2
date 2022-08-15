@@ -194,7 +194,8 @@ class Trainer:
 
                 # Generate the prediction on testing images
                 opts = test_simple.parse_args(weight_n=self.weight_n, log_dir=self.opt.log_dir,
-                                              model_name=self.opt.model_name)
+                                              model_name=self.opt.model_name, min_depth=self.opt.min_depth,
+                                              max_depth=self.opt.max_depth)
                 test_simple.test_simple(opts)
                 self.weight_n += 1
 
