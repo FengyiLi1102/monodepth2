@@ -42,8 +42,6 @@ class CloudDataset(MonoDataset):
                            [0,       0,       1,         0],
                            [0,       0,       0,         1]], dtype=np.float32)
 
-        self.full_res_shape = (640, 480)
-
     def check_depth(self):
         line = self.filenames[0].split()
         scene_name = line[0]
