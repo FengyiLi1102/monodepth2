@@ -23,11 +23,11 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=os.path.join(self.utils_dir, "../Utils/masked_rectified_rendered_uncalibrated/"))
+                                 default=os.path.join(self.utils_dir, "../Utils/masked_rectified_rendered/"))
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_masked_uncal"))
+                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_masked"))
 
         # TRAINING options
         self.parser.add_argument("--model_name",
