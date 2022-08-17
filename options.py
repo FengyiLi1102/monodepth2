@@ -23,11 +23,11 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=os.path.join(self.utils_dir, "../Utils/rectified_rendered_data/"))
+                                 default=os.path.join(self.utils_dir, "../Utils/masked_rectified_rendered/"))
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered"))
+                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_masked"))
 
         # TRAINING options
         self.parser.add_argument("--model_name",
@@ -73,11 +73,11 @@ class MonodepthOptions:
         self.parser.add_argument("--min_depth",  # disp = 1 / depth
                                  type=float,
                                  help="minimum depth",  # 1000m  disparity: 1 - 10
-                                 default=100.0 / 61 * 0.1)
+                                 default=100.0 / 61.0 * 0.1)
         self.parser.add_argument("--max_depth",
                                  type=float,
                                  help="maximum depth",
-                                 default=8000.0 / 61 * 0.1)
+                                 default=8000.0 / 61.0 * 0.1)
         self.parser.add_argument("--use_stereo",
                                  help="if set, uses stereo pair for training",
                                  action="store_true",
