@@ -64,7 +64,7 @@ class MonodepthOptions:
         self.parser.add_argument("--disparity_smoothness",
                                  type=float,
                                  help="disparity smoothness weight",
-                                 default=1e-3)
+                                 default=1e-4)
         self.parser.add_argument("--scales",
                                  nargs="+",  # pass at least one element otherwise raise an error message
                                  type=int,
@@ -73,7 +73,7 @@ class MonodepthOptions:
         self.parser.add_argument("--min_depth",  # disp = 1 / depth
                                  type=float,
                                  help="minimum depth",  # 1000m  disparity: 1 - 10
-                                 default=100.0 / 61.0 * 0.1)
+                                 default=50.0 / 61.0 * 0.1)
         self.parser.add_argument("--max_depth",
                                  type=float,
                                  help="maximum depth",
@@ -103,7 +103,7 @@ class MonodepthOptions:
         self.parser.add_argument("--num_epochs",
                                  type=int,
                                  help="number of epochs",
-                                 default=100)
+                                 default=200)
         self.parser.add_argument("--scheduler_step_size",
                                  type=int,
                                  help="step size of the scheduler",
@@ -168,7 +168,7 @@ class MonodepthOptions:
         self.parser.add_argument("--save_frequency",
                                  type=int,
                                  help="number of epochs between each save",
-                                 default=6)
+                                 default=20)
 
         # EVALUATION options
         self.parser.add_argument("--eval_stereo",
