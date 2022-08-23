@@ -23,11 +23,11 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=os.path.join(self.utils_dir, "../Utils/masked_rectified_rendered/"))
+                                 default=os.path.join(self.utils_dir, "../Utils/rectified_rendered_data/"))
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_masked"))
+                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_600"))
 
         # TRAINING options
         self.parser.add_argument("--model_name",
@@ -37,8 +37,8 @@ class MonodepthOptions:
         self.parser.add_argument("--split",
                                  type=str,
                                  help="which training split to use",
-                                 choices=["eigen_zhou", "eigen_full", "odom", "benchmark", "clouds", "clouds_rendered"],
-                                 default="clouds_rendered")
+                                 choices=["400_200", "500_200", "600_200", "clouds", "clouds_rendered"],
+                                 default="600_200")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
@@ -188,7 +188,8 @@ class MonodepthOptions:
                                  default=1)
         self.parser.add_argument("--ext_disp_to_eval",
                                  type=str,
-                                 help="optional path to a .npy disparities file to evaluate")
+                                 help="optional path to a .npy disparities file to evaluate",
+                                 default=r"/Users/fyli/Documents/Msc_Computing/Individual_project/Utils/eval_selected_pred.npz")
         self.parser.add_argument("--eval_split",
                                  type=str,
                                  default="cloud_rendered",
