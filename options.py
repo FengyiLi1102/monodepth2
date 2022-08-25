@@ -37,8 +37,8 @@ class MonodepthOptions:
         self.parser.add_argument("--split",
                                  type=str,
                                  help="which training split to use",
-                                 choices=["400_200", "500_200", "600_200", "clouds", "clouds_rendered"],
-                                 default="600_200")
+                                 choices=["400_200", "500_400", "600_300", "clouds", "clouds_rendered"],
+                                 default="600_300")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
