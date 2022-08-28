@@ -27,7 +27,7 @@ class MonodepthOptions:
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_600_200"))
+                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_750_200"))
 
         # TRAINING options
         self.parser.add_argument("--model_name",
@@ -37,8 +37,8 @@ class MonodepthOptions:
         self.parser.add_argument("--split",
                                  type=str,
                                  help="which training split to use",
-                                 choices=["400_200", "500_400", "600_200", "clouds", "clouds_rendered"],
-                                 default="600_200")
+                                 choices=["400_200", "500_400", "600_200", "clouds", "clouds_rendered", "750_200"],
+                                 default="750_200")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
@@ -73,7 +73,7 @@ class MonodepthOptions:
         self.parser.add_argument("--min_depth",  # disp = 1 / depth
                                  type=float,
                                  help="minimum depth",  # 1000m  disparity: 1 - 10
-                                 default=50.0 / 61.0 * 0.1)
+                                 default=300.0 / 61.0 * 0.1)
         self.parser.add_argument("--max_depth",
                                  type=float,
                                  help="maximum depth",
