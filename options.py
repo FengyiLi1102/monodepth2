@@ -89,7 +89,7 @@ class MonodepthOptions:
                                  default=[0])
         self.parser.add_argument("--rendered",
                                  action="store_true",
-                                 default=False)
+                                 default=True)
 
         # OPTIMIZATION options
         self.parser.add_argument("--batch_size",
