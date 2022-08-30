@@ -23,11 +23,11 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=os.path.join(self.utils_dir, "../Utils/frames_output/640_480_train"))
+                                 default=os.path.join(self.utils_dir, "../Utils/rectified_rendered_data"))
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=os.path.join(self.monodepth2_dir, "assets/output_new_raw"))
+                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_750"))
 
         # TRAINING options
         self.parser.add_argument("--model_name",
@@ -38,7 +38,7 @@ class MonodepthOptions:
                                  type=str,
                                  help="which training split to use",
                                  choices=["400_200", "500_400", "600_200", "clouds", "clouds_rendered", "750_200"],
-                                 default="clouds")
+                                 default="750_200")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
@@ -186,10 +186,12 @@ class MonodepthOptions:
                                  help="if set multiplies predictions by this number",
                                  type=float,
                                  default=1)
+
         self.parser.add_argument("--ext_disp_to_eval",
                                  type=str,
                                  help="optional path to a .npy disparities file to evaluate",
-                                 default=r"/Users/fyli/Documents/Msc_Computing/Individual_project/Utils/eval_selected_pred.npz")
+                                 default=r"test_results_39_rendered.npz")
+
         self.parser.add_argument("--eval_split",
                                  type=str,
                                  default="cloud_rendered",
