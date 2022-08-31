@@ -23,11 +23,11 @@ class MonodepthOptions:
         self.parser.add_argument("--data_path",
                                  type=str,
                                  help="path to the training data",
-                                 default=os.path.join(self.utils_dir, "../Utils/rectified_rendered_data"))
+                                 default=os.path.join(self.utils_dir, "../Utils/frames_output/640_480_train"))
         self.parser.add_argument("--log_dir",
                                  type=str,
                                  help="log directory",
-                                 default=os.path.join(self.monodepth2_dir, "assets/output_rendered_750"))
+                                 default=os.path.join(self.monodepth2_dir, "assets/output_masked_raw"))
 
         # TRAINING options
         self.parser.add_argument("--model_name",
@@ -38,11 +38,11 @@ class MonodepthOptions:
                                  type=str,
                                  help="which training split to use",
                                  choices=["400_200", "500_400", "600_200", "clouds", "clouds_rendered", "750_200"],
-                                 default="750_200")
+                                 default="clouds")
         self.parser.add_argument("--num_layers",
                                  type=int,
                                  help="number of resnet layers",
-                                 default=18,
+                                 default=34,
                                  choices=[18, 34, 50, 101, 152])
         self.parser.add_argument("--dataset",
                                  type=str,
@@ -89,13 +89,13 @@ class MonodepthOptions:
                                  default=[0])
         self.parser.add_argument("--rendered",
                                  action="store_true",
-                                 default=True)
+                                 default=False)
 
         # OPTIMIZATION options
         self.parser.add_argument("--batch_size",
                                  type=int,
                                  help="batch size",
-                                 default=10)
+                                 default=16)
         self.parser.add_argument("--learning_rate",
                                  type=float,
                                  help="learning rate",
@@ -103,7 +103,7 @@ class MonodepthOptions:
         self.parser.add_argument("--num_epochs",
                                  type=int,
                                  help="number of epochs",
-                                 default=200)
+                                 default=2000)
         self.parser.add_argument("--scheduler_step_size",
                                  type=int,
                                  help="step size of the scheduler",
@@ -190,7 +190,7 @@ class MonodepthOptions:
         self.parser.add_argument("--ext_disp_to_eval",
                                  type=str,
                                  help="optional path to a .npy disparities file to evaluate",
-                                 default=r"test_results_39_rendered.npz")
+                                 default=r"test_results_1119_rendered.npz")
 
         self.parser.add_argument("--eval_split",
                                  type=str,
